@@ -1,2 +1,13 @@
-# ATS
-🚀 ATS Resume Expert is an AI-powered Applicant Tracking System (ATS) resume analyzer that evaluates resumes against job descriptions. It helps job seekers optimize their resumes by providing detailed feedback, percentage match scores, and missing keyword analysis to improve ATS compatibility.
+📄 ATS Resume Expert
+
+ATS Resume Expert is a **Streamlit-based AI web app** that evaluates resumes against a given job description using **Google Gemini AI**.  
+It acts like a real **ATS (Applicant Tracking System)** — scanning resumes, checking job fit, finding missing keywords, and giving a **match percentage**.
+
+🚀 Features
+- 📤 Upload resume **PDF**
+- 📝 Paste job description
+- 🤖 AI-powered evaluation using **Google Gemini**
+- 📊 Match percentage score
+- 🗝 Missing keywords detection
+- 💡 Professional HR feedback
+
