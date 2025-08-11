@@ -10,14 +10,16 @@ import google.generativeai as genai
 
 load_dotenv()
 
-
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-
 
 def input_pdf_setup(uploaded_file):
     if uploaded_file is not None:
         try:
-            images = pdf2image.convert_from_bytes(uploaded_file.read())
+            
+            images = pdf2image.convert_from_bytes(
+                uploaded_file.read(),
+                poppler_path=r"C:\poppler\Library\bin"
+            )
             pdf_parts = []
             for page in images:
                 img_byte_arr = io.BytesIO()
@@ -35,13 +37,12 @@ def input_pdf_setup(uploaded_file):
         st.warning("No file uploaded.")
         return None
 
-
 def get_gemini_response(system_prompt, pdf_content, job_description):
     try:
         model = genai.GenerativeModel('gemini-1.5-flash')
         response = model.generate_content([
             system_prompt,
-            *pdf_content,  
+            *pdf_content,
             job_description
         ])
         return response.text
@@ -49,16 +50,14 @@ def get_gemini_response(system_prompt, pdf_content, job_description):
         st.error(f"Error from Gemini API: {e}")
         return None
 
-
 st.set_page_config(page_title="ATS Resume Expert", layout="wide")
 st.title("📄 ATS Resume Expert")
 st.markdown("AI-powered resume evaluation using **Google Gemini AI**")
 
-
 input_text = st.text_area("📌 Paste the Job Description here:", key="input", height=200)
 uploaded_file = st.file_uploader("📤 Upload your Resume (PDF)", type=["pdf"])
 
-
+# Prompts
 input_prompt1 = """
 You are an experienced Technical Human Resource Manager. 
 Review the provided resume against the job description. 
@@ -77,13 +76,10 @@ Provide:
 
 
 col1, col2 = st.columns(2)
-
 with col1:
     submit1 = st.button("💼 Tell Me About the Resume")
-
 with col2:
     submit3 = st.button("📊 Percentage Match")
-
 
 if submit1 or submit3:
     if not uploaded_file:
