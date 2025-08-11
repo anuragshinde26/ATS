@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 import base64
 import streamlit as st
 import os
@@ -8,9 +7,8 @@ import pdf2image
 import google.generativeai as genai
 
 
-load_dotenv()
+genai.configure(api_key="AIzaSyANYZvrnon_Ym_Ro2nvuRjSNOHfoudZWg4")
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def input_pdf_setup(uploaded_file):
     if uploaded_file is not None:
@@ -37,6 +35,7 @@ def input_pdf_setup(uploaded_file):
         st.warning("No file uploaded.")
         return None
 
+
 def get_gemini_response(system_prompt, pdf_content, job_description):
     try:
         model = genai.GenerativeModel('gemini-1.5-flash')
@@ -54,6 +53,7 @@ st.set_page_config(page_title="ATS Resume Expert", layout="wide")
 st.title("📄 ATS Resume Expert")
 st.markdown("AI-powered resume evaluation using **Google Gemini AI**")
 
+# User inputs
 input_text = st.text_area("📌 Paste the Job Description here:", key="input", height=200)
 uploaded_file = st.file_uploader("📤 Upload your Resume (PDF)", type=["pdf"])
 
